@@ -6,14 +6,23 @@ CC:=\033[0;36m
 NC:=\033[0m
 EC:=\033[1;31m
 
-.PHONY: install test-single
+.PHONY: install new-credentials test test-single orcus-integration
 
 # List of real targets in your Makefile
-KNOWN_TARGETS := $(firstword $(MAKEFILE_LIST))
+KNOWN_TARGETS := test test-single
 
 # Parameter arguments -- everything except Makefile command goals
 PARAMS:=$(filter-out $(KNOWN_TARGETS),$(MAKECMDGOALS))
-ARG1:=$(word 2, $(PARAMS))
+ARG1:=$(word 1, $(PARAMS))
+
+%:
+	@:
+
+debug:
+	@echo $(MAKEFILE_LIST)
+	@echo $(KNOWN_TARGETS)
+	@echo $(PARAMS)
+	@echo $(ARG1)
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(firstword $(MAKEFILE_LIST)) | awk 'BEGIN {FS = ":.*?## "}; {printf "$(CC)%-25s$(NC) %s\n", $$1, $$2}'
